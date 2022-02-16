@@ -1,0 +1,91 @@
+[ticrypt.vm.licensing-server-driver]
+type = "string"
+description = "Specifies licensing server driver. Available: 'none' | 'firewalld' "
+default = "none"
+required = false
+
+[ticrypt.vm.reload-freq]
+type = "duration"
+description = "Specifies how often to reload the server driver. Recommended to do once a day"
+default = "24 hours"
+required = false
+
+[ticrypt.vm.firewalld.file-access]
+type = "string"
+description = "Specifies the firewall script file to modify. Specify only if licensing-server-driver is set to firewalld."
+default = "/home/ticrypt/test-file"
+required = false
+
+[ticrypt.vm.history.default-limit]
+type = "number"
+description = "Limit for VM logs and history. The default amount of logs to show"
+default = 20
+required = false
+
+[ticrypt.vm.max-limit]
+type = "number"
+description = "Limit for VM logs and history. The maximum amount of logs to show"
+default = 50
+required = false
+
+[ticrypt.vm.mongodb.database]
+type = "string"
+description = "The name of the database in which data will be stored"
+default = "ticrypt-vm"
+required = false
+
+[ticrypt.vm.mongodb.uri]
+type = "string"
+description = "URI to the vm database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "mongodb://user:password@localhost:27017/ticrypt-vm"
+required = false
+
+[ticrypt.vm.mongodb.hostname]
+type = "string"
+description = "Hostname of the vm database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "localhost"
+required = false
+
+[ticrypt.vm.mongodb.port]
+type = "number"
+description = "Port of the vm database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = 27017
+required = false
+
+[ticrypt.vm.mongodb.user]
+type = "string"
+description = "User name of the vm database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "user"
+required = false
+
+[ticrypt.vm.mongodb.password]
+type = "string"
+description = "Password of the vm database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "password"
+required = false
+
+[ticrypt.vm.realms.example-libvirt-realm]
+type = "object"
+description = "Realm configurations, mapping of ID -> settings"
+default = """{include "realms/example-libvirt-realm.conf"}"""
+required = false
+
+[ticrypt.vm.default-realm]
+type = "string"
+description = "If specified, the specified realm will be used when a realm is not explicitly given in requests (e.g. creating drives). This allows for backwards compatiblity with clients that do not understand realms."
+default = "example-libvirt-realm"
+required = false
+
+[ticrypt.vm.akka.remote.artery.canonical]
+hostname = { type = "string", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "number", description = "Sets the port used for remote connections to other services.", default = "2560", required = false}
+
+[ticrypt.auth]
+hostname = { type = "string", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "number", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
+
+[ticrypt.vm.realm-check-freq]
+type = "duration"
+description = "Specifies how often to check each realm's drives and VMs. Recommended to do frequently"
+default = "1 hours"
+required = false

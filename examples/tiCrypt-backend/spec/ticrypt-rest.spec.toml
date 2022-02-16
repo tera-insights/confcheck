@@ -1,0 +1,86 @@
+[ticrypt.rest.http.host]
+type = "string"
+description = "Port to which to bind the HTTP server"
+default = "localhost"
+required = false
+
+[ticrypt.rest.http.port]
+type = "number"
+description = "Interface to which to bind the HTTP server"
+default = 8080
+required = false
+
+[ticrypt.rest.backend-timeout]
+type = "duration"
+description = "Amount of time to wait for requests to the backend servers to complete before timing out"
+default = "2m"
+required = false
+
+[ticrypt.rest.allowed-origins]
+type = "[]string"
+description = "Allowed CORS origins. Empty = all origins"
+default = []
+required = false
+
+[ticrypt.rest.vm.internal-networks]
+type = "string"
+description = "IP ranges that are considered 'internal', specified in address/netmask format. Example: '192.168.122.0/24'"
+default = []
+required = false
+
+[ticrypt.rest.validation.request-json]
+type = "string"
+description = "[on/off] If on, all JSON request bodies are scanned for HTML and other illegal structures that could be used to perform reflection attacks."
+default = "on"
+required = false
+
+[ticrypt.rest.validation.response-json]
+type = "string"
+description = "[on/off] If on, all JSON responses are scanned for HTML and other illegal structures that could be used to perform reflection attacks. This can prevent this information from being served to the client even if the database is compromised."
+default = "on"
+required = false
+
+[ticrypt.rest.session.search-raw-header]
+type = "boolean"
+description = "Whether to search the raw cookie header for the session cookie if not found normally. The HTTP server library will not parse a 'Cookie' header that contains cookies with invalid syntax (e.g., whitespace in the cookie value, etc). Thus, if one or more invalid cookies are sent as part of the request, the session cookie will not be recognized, even if that cookie is valid. As a workaround, this option may be turned on, which will cause the raw Cookie header to be searched as a fallback, if the cookie is not found normally. This adds a small amount of overhead to requests that don't use cookies to specify sessions, but allows the session cookie to be found even in cases where invalid cookies are included in the request."
+default = false
+required = false
+
+[ticrypt.rest.akka.remote.artery.canonical]
+hostname = { type = "string", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "number", description = "Sets the port used for remote connections to other services.", default = "2553", required = false}
+
+
+[ticrypt.auth]
+hostname = { type = "string", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "number", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
+
+[akka.http.server.parsing.max-content-length]
+type = "filesize"
+description = "Max content length for responses. Should be set to at least 50% more than the chunk size configured for the file management service"
+default = "16 MiB"
+required = false
+
+[akka.http.server.request-timeout]
+type = "duration"
+description = "The length of time the backend has to respond to a request"
+default = "20 minutes"
+required = false
+
+[akka.http.server.idle-timeout]
+type = "duration"
+description = "The length of time before an idle connection will be closed. Should be longer than request-timeout"
+default = "25 minutes"
+required = false
+
+[akka.http.server.pipelining-limit]
+type = "number"
+description = "Defines the number of requests that can be processed in parallel."
+default = 16
+required = false
+
+[akka.http.client.idle-timeout]
+type = "duration"
+description = "The length of time before an idle connection will be closed. Should be longer than request-timeout"
+default = "25 minutes"
+required = false
