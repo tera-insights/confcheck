@@ -11,7 +11,7 @@ default = "localhost"
 required = false
 
 [ticrypt.backup.mongodb.port]
-type = "number"
+type = "int"
 description = "Port of the backup database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
 default = 27017
 required = false
@@ -23,31 +23,31 @@ default = "ticrypt"
 required = true
 
 [ticrypt.backup.backup-base]
-type = "string"
+type = "dir"
 description = "Directory where backups are stored locally"
 default = "/storage/ticrypt/ticrypt-backup"
 required = true
 
 [ticrypt.backup.storage-base]
-type = "string"
+type = "dir"
 description = "Directory where the files are located. Must be the same as ticrypt-storage"
 default = "/storage/ticrypt/ticrypt-storage"
 required = true
 
 [ticrypt.backup.num-copy-actors]
-type = "number"
+type = "int"
 description = "The amout of parallelism for file copying. For aggressive file systems, a larger nubmer might give better performance"
 default = 1
 required = true
 
 [ticrypt.backup.sqlite.wal]
-type = "string"
+type = "switch"
 description = "[on/off] Whether or not SQLite3 write-ahead-log is used"
 default = "off"
 required = true
 
 [ticrypt.backup.public-key-location]
-type = "string"
+type = "file"
 description = "Location of the tiCrypt public key. This is used to transfer SFTP backups"
 default = "/var/lib/ticrypt/.ssh/id_rsa.pub"
 required = true
@@ -64,9 +64,17 @@ description = "Set the transport method used for the remote service"
 default = "tcp"
 required = false
 
-[ticrypt.backup.akka.remote.artery.canonical]
-hostname = { type = "string", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used for remote connections to other services.", default = "2564", required = false}
+[ticrypt.backup.akka.remote.artery.canonical.hostname]
+type = "regex<ipv4>"
+description = "Sets the host interface upon which the service listens for connections from the other services."
+default = 127.0.0.1
+required = false
+
+[ticrypt.backup.akka.remote.artery.canonical.port]
+type = "int"
+description = "Sets the port used for remote connections to other services."
+default = 2564
+required = false
 
 [ticrypt.backup.akka.actor.loggers]
 type = "[]string"
@@ -80,6 +88,14 @@ description = "Set the logging level used by the remote service"
 default = "INFO"
 required = false
 
-[ticrypt.auth]
-hostname = { type = "string", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
+[ticrypt.auth.hostname]
+type = "regex<ipv4>"
+description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service."
+default = 127.0.0.1
+required = false
+
+[ticrypt.auth.port]
+type = "int"
+description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service."
+default = 2552
+required = false

@@ -5,7 +5,7 @@ default = "ticrypt-filemanager"
 required = false
 
 [ticrypt.filemanager.mongodb.uri]
-type = "string"
+type = "uri<mongo>"
 description = "URI to the filemanager database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
 default = "mongodb://user:password@localhost:27017/ticrypt-filemanager"
 required = false
@@ -17,7 +17,7 @@ default = "localhost"
 required = false
 
 [ticrypt.filemanager.mongodb.port]
-type = "number"
+type = "int"
 description = "Port of the filemanager database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
 default = 27017
 required = false
@@ -35,22 +35,22 @@ default = "password"
 required = false
 
 [ticrypt.filemanager.chunk-size]
-type = "filesize"
+type = "size<MiB>"
 description = "Uploaded files will be split into chunks of size `chunk-size`. Each chunk may have at most `max-header-size` extra bytes to account for the headers used for decryption (e.g., IV, authentication tags)"
 default = "8 MiB"
 required = true
 
 [ticrypt.filemanager.max-header-size]
-type = "filesize"
+type = "size<byte>"
 description = "Uploaded files will be split into chunks of size `chunk-size`. Each chunk may have at most `max-header-size` extra bytes to account for the headers used for decryption (e.g., IV, authentication tags)"
 default = "64 bytes"
 required = false
 
 [ticrypt.filemanager.akka.remote.artery.canonical]
-hostname = { type = "string", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used for remote connections to other services.", default = "2555", required = false}
+hostname = { type = "regex<ipv4>", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "int", description = "Sets the port used for remote connections to other services.", default = "2555", required = false}
 
 
 [ticrypt.auth]
-hostname = { type = "string", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
+hostname = { type = "regex<ipv4>", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "int", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
