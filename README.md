@@ -1,0 +1,2 @@
+# confcheck
+Configuration file checker
