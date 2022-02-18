@@ -5,13 +5,13 @@ default = "ticrypt-backup"
 required = true
 
 [ticrypt.backup.mongodb.hostname]
-type = "string"
+type = "hostname"
 description = "Hostname of the backup database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
 default = "localhost"
 required = false
 
 [ticrypt.backup.mongodb.port]
-type = "int"
+type = "port"
 description = "Port of the backup database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
 default = 27017
 required = false
@@ -71,7 +71,7 @@ default = 127.0.0.1
 required = false
 
 [ticrypt.backup.akka.remote.artery.canonical.port]
-type = "int"
+type = "port"
 description = "Sets the port used for remote connections to other services."
 default = 2564
 required = false
@@ -89,13 +89,13 @@ default = "INFO"
 required = false
 
 [ticrypt.auth.hostname]
-type = "regex<ipv4>"
+type = "hostname"
 description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service."
 default = 127.0.0.1
 required = false
 
 [ticrypt.auth.port]
-type = "int"
+type = "port"
 description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service."
 default = 2552
 required = false

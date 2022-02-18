@@ -1,17 +1,17 @@
 [ticrypt.rest.http.host]
-type = "string"
+type = "hostname"
 description = "Port to which to bind the HTTP server"
 default = "localhost"
 required = false
 
 [ticrypt.rest.http.port]
-type = "number"
+type = "port"
 description = "Interface to which to bind the HTTP server"
 default = 8080
 required = false
 
 [ticrypt.rest.backend-timeout]
-type = "duration"
+type = "duration[1m: 2 hr]"
 description = "Amount of time to wait for requests to the backend servers to complete before timing out"
 default = "2m"
 required = false
@@ -23,19 +23,19 @@ default = []
 required = false
 
 [ticrypt.rest.vm.internal-networks]
-type = "string"
+type = "" //TODO- valid subnet regex
 description = "IP ranges that are considered 'internal', specified in address/netmask format. Example: '192.168.122.0/24'"
 default = []
 required = false
 
 [ticrypt.rest.validation.request-json]
-type = "string"
+type = "switch"
 description = "[on/off] If on, all JSON request bodies are scanned for HTML and other illegal structures that could be used to perform reflection attacks."
 default = "on"
 required = false
 
 [ticrypt.rest.validation.response-json]
-type = "string"
+type = "switch"
 description = "[on/off] If on, all JSON responses are scanned for HTML and other illegal structures that could be used to perform reflection attacks. This can prevent this information from being served to the client even if the database is compromised."
 default = "on"
 required = false
@@ -47,40 +47,40 @@ default = false
 required = false
 
 [ticrypt.rest.akka.remote.artery.canonical]
-hostname = { type = "string", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used for remote connections to other services.", default = "2553", required = false}
+hostname = { type = "hostname", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used for remote connections to other services.", default = "2553", required = false}
 
 
 [ticrypt.auth]
-hostname = { type = "string", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
+hostname = { type = "hostname", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
 
 [akka.http.server.parsing.max-content-length]
-type = "filesize"
+type = "size[1 KB: 1 TiB]"
 description = "Max content length for responses. Should be set to at least 50% more than the chunk size configured for the file management service"
 default = "16 MiB"
 required = false
 
 [akka.http.server.request-timeout]
-type = "duration"
+type = "duration[1 min: 2 hr]"
 description = "The length of time the backend has to respond to a request"
 default = "20 minutes"
 required = false
 
 [akka.http.server.idle-timeout]
-type = "duration"
+type = "duration[10 min: 1 hr]"
 description = "The length of time before an idle connection will be closed. Should be longer than request-timeout"
 default = "25 minutes"
 required = false
 
 [akka.http.server.pipelining-limit]
-type = "number"
+type = "int"
 description = "Defines the number of requests that can be processed in parallel."
 default = 16
 required = false
 
 [akka.http.client.idle-timeout]
-type = "duration"
+type = "duration[10 min: 1 hr]"
 description = "The length of time before an idle connection will be closed. Should be longer than request-timeout"
 default = "25 minutes"
 required = false
