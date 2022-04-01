@@ -221,7 +221,7 @@ required = false
 [ticrypt.auth.akka.remote.artery.canonical.hostname]
 type = "hostname"
 description = "Determines whether server-assisted authentication is required for new accounts. Only takes effect if SAA is enabled."
-default = 127.0.0.1
+default = "127.0.0.1"
 required = false
 
 [ticrypt.auth.akka.remote.artery.canonical.port]
