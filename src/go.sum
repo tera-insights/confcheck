@@ -1,2 +1,4 @@
+github.com/BurntSushi/toml v1.0.0 h1:dtDWrepsVPfW9H/4y7dDgFc2MBUSeJhlaDtK13CxFlU=
+github.com/BurntSushi/toml v1.0.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/liyinhgqw/typesafe-config v0.0.0-20190712024345-df98b3526473 h1:TqPXJYxp6Jg76Aeqsn4PHmoyscUUpkN8GODHjLE9y3k=
 github.com/liyinhgqw/typesafe-config v0.0.0-20190712024345-df98b3526473/go.mod h1:w96csacDzOpXX9jHHuOM1tHMaV47K35IL77JTCMHlho=

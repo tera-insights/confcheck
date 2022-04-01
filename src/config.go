@@ -41,6 +41,13 @@ func (c *Config) Parse(configFileData []byte) (err error) {
 func populateConfigVars(c *Config) error {
 	typesafeConf := c.underlyingData.GetConfig()
 	os.Stdout.WriteString("Printing the extracted structure:\n" + typesafeConf.String())
+	val, err := typesafeConf.GetArray("ticrypt.auth")
+	//os.Stdout.WriteString(val[0].String())
+	if err == nil {
+		os.Stdout.WriteString("Val_0:\n" + val[0].String())
+	} else {
+		os.Stdout.WriteString(err.Error())
+	}
 	if val, err := typesafeConf.GetString("ticrypt.auth.mongodb.uri"); err == nil {
 		c.MongoConnection.URI = unquoteString(val)
 		if c.MongoConnection.URI == "" {
