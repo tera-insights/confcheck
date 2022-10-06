@@ -11,10 +11,15 @@ import (
 )
 
 type node struct {
+	NodeName    string
 	Default     interface{}
-	Description interface{}
-	Required    interface{}
-	Type        interface{}
+	Description string
+	Required    bool
+	Type        string
+	Error       []string
+	Warning     []string
+	Verbose     []string
+	Errors      map[string][]string
 }
 
 type nodes struct {
@@ -38,7 +43,6 @@ func main() {
 	conf := configuration.ParseString(string(buff))
 
 	var tree tree
-
 	_, err = toml.DecodeFile(specFilePath, &tree)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -48,11 +52,7 @@ func main() {
 	Nodes := map[string]node{}
 	dfs(tree, conf, "", nil, Nodes)
 	fmt.Printf("Nodes count: %v\n", len(Nodes))
-	// count := 0
-	// for k, v := range Nodes {
-	// 	count++
-	// 	fmt.Printf("%v %v: %v\n", count, k, v)
-	// }
+	printLog(Nodes)
 }
 
 func dfs(tree tree, config *configuration.Config, nodeName string, parentNode tree, visited map[string]node) {
@@ -71,11 +71,32 @@ func dfs(tree tree, config *configuration.Config, nodeName string, parentNode tr
 				currNode = node{}
 				currMap := parentNode[nodeName[1+strings.LastIndex(nodeName, "."):]]
 				mapstructure.Decode(currMap, &currNode)
+				currNode.NodeName = nodeName
+				validate(config, &currNode) //validation check
 				visited[nodeName] = currNode
-				fmt.Printf("%v: %v\n", nodeName, config.GetValue(nodeName))
-				// validate(currNode, config.GetString(nodeName)) validation check
 			}
 		}
 	}
 
+}
+
+func printLog(nodes map[string]node) {
+	Red := "\033[31m"
+	Reset := "\033[0m"
+	count := 0
+	for _, v := range nodes {
+		if len(v.Error) == 0 {
+			continue
+		}
+		count++
+		fmt.Printf("%v> %v \n", count, v.NodeName)
+		errCount := 0
+		for error := range v.Error {
+			errCount++
+			// colored := fmt.Sprintf(Red+"\t%v. %v", errCount, v.Error[error]+Reset)
+			colored := fmt.Sprintf(Red+"\t%v", v.Error[error]+Reset)
+			fmt.Println(colored)
+		}
+		fmt.Println()
+	}
 }
