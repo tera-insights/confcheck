@@ -91,10 +91,10 @@ func printLog(nodes map[string]node) {
 		count++
 		fmt.Printf("%v> %v \n", count, v.NodeName)
 		errCount := 0
-		for error := range v.Error {
+		for err := range v.Error {
 			errCount++
 			// colored := fmt.Sprintf(Red+"\t%v. %v", errCount, v.Error[error]+Reset)
-			colored := fmt.Sprintf(Red+"\t%v", v.Error[error]+Reset)
+			colored := fmt.Sprintf(Red+"\t%v", v.Error[err]+Reset)
 			fmt.Println(colored)
 		}
 		fmt.Println()
