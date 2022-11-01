@@ -176,6 +176,7 @@ func complexTypeCheck(hoconValue *hocon.HoconValue, node *node) {
 
 func durationCheck(val string, node *node) {
 	//TODO:
+	//node.Error = append(node.Error, "Type "+node.Type+" is not supported")
 }
 
 func uriCheck(val string, node *node) {
