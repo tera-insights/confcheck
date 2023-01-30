@@ -8,9 +8,8 @@ github.com/TylerBrock/colorjson
 # github.com/fatih/color v1.14.1
 ## explicit; go 1.17
 github.com/fatih/color
-# github.com/go-akka/configuration v0.0.0-20200606091224-a002c0330665 => /workspaces/confcheck/configuration
-## explicit; go 1.19
-github.com/go-akka/configuration
+# github.com/go-akka/configuration v0.0.0-20200606091224-a002c0330665
+## explicit
 github.com/go-akka/configuration/hocon
 # github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f
 ## explicit
@@ -23,7 +22,10 @@ github.com/mattn/go-isatty
 # github.com/mitchellh/mapstructure v1.5.0
 ## explicit; go 1.14
 github.com/mitchellh/mapstructure
+# github.com/tera-insights/go-akka-configuration v0.0.0-20200606091224-a002c0330665
+## explicit
+github.com/tera-insights/go-akka-configuration
+github.com/tera-insights/go-akka-configuration/hocon
 # golang.org/x/sys v0.3.0
 ## explicit; go 1.17
 golang.org/x/sys/unix
-# github.com/go-akka/configuration => /workspaces/confcheck/configuration

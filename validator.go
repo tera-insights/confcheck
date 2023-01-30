@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/go-akka/configuration"
-	"github.com/go-akka/configuration/hocon"
+	"github.com/tera-insights/go-akka-configuration"
+	"github.com/tera-insights/go-akka-configuration/hocon"
 )
 
 func validate(config *configuration.Config, node *node) {

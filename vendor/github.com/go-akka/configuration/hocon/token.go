@@ -7,7 +7,6 @@ const (
 	TokenTypeComment
 	TokenTypeKey
 	TokenTypeLiteralValue
-	TokenTypeLiteralValueUnquoted
 	TokenTypeAssign
 	TokenTypePlusAssign
 	TokenTypeObjectStart
@@ -58,10 +57,6 @@ func (p *Token) Substitution(path string, isOptional bool) *Token {
 
 func (p *Token) LiteralValue(value string) *Token {
 	return &Token{tokenType: TokenTypeLiteralValue, value: value}
-}
-
-func (p *Token) LiteralValueUnquoted(value string) *Token {
-	return &Token{tokenType: TokenTypeLiteralValueUnquoted, value: value}
 }
 
 func (p *Token) Include(path string) *Token {

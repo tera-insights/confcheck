@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/go-akka/configuration"
-	"github.com/go-akka/configuration/hocon"
 	"github.com/mitchellh/mapstructure"
+	"github.com/tera-insights/go-akka-configuration"
+	"github.com/tera-insights/go-akka-configuration/hocon"
 	// 	"github.com/en-vee/aconf"
 	// 	validator "gopkg.in/go-playground/validator.v9"
 )
