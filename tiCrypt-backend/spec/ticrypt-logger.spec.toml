@@ -5,7 +5,7 @@ default = true
 required = false
 
 [ticrypt.logger.drivers.main-file-logger.immutable]
-type = "string"
+type = "boolean"
 description = "Whether or not this logger is immutable."
 default = true
 required = false
@@ -17,19 +17,19 @@ default = "file"
 required = false
 
 [ticrypt.logger.drivers.main-file-logger.log-file]
-type = "string"
+type = "file"
 description = "Where to read and write the logs to"
 default = "/var/log/ticrypt/ticrypt-secure-log.log"
 required = false
 
 [ticrypt.logger.rotate-log]
-type = "string"
+type = "switch"
 description = "[on/off] Whether or not to rotate the main log"
 default = "on"
 required = false
 
 [ticrypt.logger.rotate-log-frequency]
-type = "duration"
+type = "duration[1 hr: 1 day]"
 description = "The frequency at which to rotate"
 default = "1 day"
 required = false
@@ -43,21 +43,21 @@ default = "'-'yyyyMMdd'T'HHmmss"
 required = false
 
 [ticrypt.logger.rotate-log-suffix-timezone]
-type = "string"
+type = "timezone"
 description = "Set to null to use the default system timezone. If you do this, it is recommended to add a timezone component to the suffix format"
 default = "UTC"
 required = false
 
 [ticrypt.logger.max-buffered-lines]
-type = "number"
+type = "int"
 description = "Maximum number of lines to buffer before writing out to file"
 default = 10
 required = false
 
 [ticrypt.logger.akka.remote.artery.canonical]
-hostname = { type = "string", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used for remote connections to other services.", default = "2559", required = false}
+hostname = { type = "hostname", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used for remote connections to other services.", default = "2559", required = false}
 
 [ticrypt.auth]
-hostname = { type = "string", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
-port = { type = "number", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
+hostname = { type = "hostname", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}

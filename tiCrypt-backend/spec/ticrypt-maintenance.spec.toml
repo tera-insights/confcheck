@@ -1,0 +1,11 @@
+[ticrypt.maintenance.account-locker]
+enabled = { type = "boolean", description = "Whether or not this task is enabled", default = true, required = false }
+frequency = { type = "duration[1 hr: 10 days]", description = "How often to check for expired accounts", default = "4h", required = false }
+
+[ticrypt.maintenance.akka.remote.artery.canonical]
+hostname = { type = "hostname", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used for remote connections to other services.", default = "2552", required = false}
+
+[ticrypt.auth]
+hostname = { type = "hostname", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}

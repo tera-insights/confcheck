@@ -1,0 +1,26 @@
+[ticrypt.filemanager.path]
+type = "dir"
+description = "Path to file storage"
+default = "/tmp/ticrypt-storage"
+required = false
+
+[ticrypt.filemanager.idle-time]
+type = "duration[1 min: 20 min]"
+description = "How long a read or write is allowed to be idle before the connection is killed"
+default = "5 minutes"
+required = false
+
+[ticrypt.filemanager.idle-check]
+type = "duration[1 sec: 10 min]"
+description = "How often the idle time is checked. 0 = never"
+default = "10 seconds"
+required = false
+
+[ticrypt.storage.akka.remote.artery.canonical]
+hostname = { type = "hostname", description = "Sets the host interface upon which the service listens for connections from the other services.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used for remote connections to other services.", default = "2554", required = false}
+
+
+[ticrypt.auth]
+hostname = { type = "hostname", description = "Sets the hostname used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "127.0.0.1", required = false}
+port = { type = "port", description = "Sets the port used by the Authentication service. Must be set properly for proper communcation with the authentication service.", default = "2552", required = false}
