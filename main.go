@@ -7,7 +7,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/mitchellh/mapstructure"
-	"github.com/tera-insights/go-akka-configuration"
+	configuration "github.com/tera-insights/go-akka-configuration"
 	"github.com/tera-insights/go-akka-configuration/hocon"
 	// 	"github.com/en-vee/aconf"
 	// 	validator "gopkg.in/go-playground/validator.v9"
@@ -40,7 +40,7 @@ type tree map[string]interface{}
 func NewPosition(pos interface{}) *Position {
 	res := Position{}
 	switch t := pos.(type) {
-	case hocon.Position: //find this
+	case hocon.Position:
 		x := pos.(hocon.Position)
 		res.Line = x.Line
 		res.Col = x.Col
@@ -52,13 +52,34 @@ func NewPosition(pos interface{}) *Position {
 }
 
 func main() {
-	specFilePath := "../tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	if _, err := os.Stat(specFilePath); err != nil {
-		specFilePath = "../tiCrypt-backend/spec/ticrypt-auth.spec.toml"
+	// 	var parser ConfigParser
+	// 	var filepath string
+	// 	var extension string
+
+	// 	fmt.Println("Enter toml file path:")
+	// 	fmt.Scan(&specFilePath)
+	// 	fmt.Println("Enter hocon file path:")
+	// 	fmt.Scan(&hoconfile)
+
+	// specFilePath := "../tiCrypt-backend/spec/ticrypt-auth.spec.toml"
+	// if _, err := os.Stat(specFilePath); err != nil {
+	// 	specFilePath = "../tiCrypt-backend/spec/ticrypt-auth.spec.toml"
+	// }
+	// buff, err := os.Readlink("../tiCrypt-backend/tiDemo/ticrypt-auth.conf")
+	// if err != nil {
+	// 	fmt.Print(err)
+	// }
+
+	specFilePath := "/workspaces/confcheck/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
+	_, err := os.Stat(specFilePath)
+	if os.IsNotExist(err) {
+		specFilePath = "/workspaces/confcheck/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
 	}
-	buff, err := os.Readlink("../tiCrypt-backend/default-config/ticrypt-auth.conf")
+
+	hoconfile := "/workspaces/confcheck/tiCrypt-backend/default-config/ticrypt-auth.conf"
+	buff, err := os.ReadFile(hoconfile)
 	if err != nil {
-		fmt.Print(err)
+		fmt.Println(err)
 	}
 
 	//for hocon file
@@ -75,17 +96,9 @@ func main() {
 	Nodes := map[string]node{}
 	dfs(tree, conf, "", nil, Nodes, meta)
 	fmt.Printf("Nodes count: %v\n", len(Nodes))
-	printLog(Nodes)
-	printJsonLog(Nodes)
-	exportToJson(Nodes)
-
-	// 	var parser ConfigParser
-	// 	var filepath string
-	// 	var extension string
-	// 	fmt.Println("Enter config file path:")
-	// 	fmt.Scan(&filepath)
-	// 	fmt.Println("Enter config file extension:")
-	// 	fmt.Scan(&extension)
+	//printLog(Nodes)
+	//printJsonLog(Nodes)
+	//exportToJson(Nodes)
 
 	// 	switch extension {
 	// 	case "hocon":
@@ -123,8 +136,9 @@ func dfs(tree tree, config *configuration.Config, nodeName string, parentNode tr
 				mapstructure.Decode(currMap, &currNode)
 				currNode.NodeName = nodeName
 				currNode.Position = NewPosition(config.GetPosition(nodeName))
-				validate(config, &currNode)
-				//validation check
+				fmt.Print(config.GetPosition(nodeName))
+				fmt.Printf("ping")
+				//validate(config, &currNode)
 
 				visited[nodeName] = currNode
 				fmt.Printf("%v %v \n", config.GetPosition(nodeName), nodeName)

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/tera-insights/go-akka-configuration"
+	configuration "github.com/tera-insights/go-akka-configuration"
 	"github.com/tera-insights/go-akka-configuration/hocon"
 )
 
@@ -237,10 +237,11 @@ func isSwitch(val string) bool {
 
 func isInt(value string) bool {
 	_, err := strconv.ParseInt(value, 10, 32)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
+	// if err != nil {
+	// 	return false
+	// }
+	// return true
 }
 
 func isPort(value string) bool {
@@ -251,6 +252,7 @@ func isPort(value string) bool {
 	return true
 }
 
+// unused right now
 func isIP(value string) bool {
 	ValidIpAddressRegex := "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$"
 	match, _ := regexp.MatchString(ValidIpAddressRegex, value)
