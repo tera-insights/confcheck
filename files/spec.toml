@@ -1,0 +1,231 @@
+[ticrypt.auth.mongodb.database]
+type = "string"
+description = "The name of the database in which data will be stored"
+default = "ticrypt-auth"
+required = false
+
+[ticrypt.auth.mongodb.uri]
+type = "uri<mongo>"
+description = "URI to the auth database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "mongodb://user:password@localhost:27017/ticrypt-auth"
+required = false
+
+[ticrypt.auth.mongodb.hostname]
+type = "hostname"
+description = "Hostname of the auth database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "localhost"
+required = false
+
+[ticrypt.auth.mongodb.port]
+type = "port"
+description = "Port of the auth database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = 27017
+required = false
+
+[ticrypt.auth.mongodb.user] 
+type = "string"
+description = "User name of the auth database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "user"
+required = false
+
+[ticrypt.auth.mongodb.password]
+type = "string[8:64]"
+description = "Password of the auth database. You may EITHER specify the uri OR the components. If specified, the URI will be used instead of the components"
+default = "password"
+required = false
+
+[ticrypt.auth.users.allow-self-registration]
+type = "switch"
+description = "[on / off] Whether or not users are allowed to register inactive accounts for themselves."
+default = "on"
+required = true
+
+[ticrypt.auth.users.self-registration-token]
+type = "string[8:1024]"
+description = "Token used to bootstrap the first user and, if self registration is enabled, allow new users to create their own (inactive) account"
+default = "m)%qnDd]p0dF-CDOZ!a&#m10<D*1jjq_RDFhO'D4"
+required = true
+
+[ticrypt.auth.users.self-registration-reason]
+type = "string"
+description = "Message shown to the user if they attempt to log in using an account that has not yet been activated."
+default = "Account disabled pending administrator approval."
+required = true
+
+[ticrypt.auth.users.default-permissions]
+type = "[]string"
+description = """
+Default permissions for new users.
+    Values prefixed with an @ are interpreted as groups of permissions.
+    Valid permission groups are:
+      - session            Session creation, REQUIRED FOR LOGIN
+      - admin              User administration
+      - group              Group creation and management
+      - file               File creation, upload, download, and sharing
+      - directory          Directory creation and management
+      - mailbox            Mailbox creation
+"""
+default = [ "@group", "@file", "@directory", "@session" ]
+required = false
+
+[ticrypt.auth.sessions.session-idle-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "Sets the default amount of time that a session will remain active without being used."
+default = "1800 sec"
+required = false
+
+[ticrypt.auth.sessions.challenge-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "Sets the amount of time that a client has to respond to a session challenge"
+default = "600 sec"
+required = false
+
+[ticrypt.auth.sessions.temporary-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "The amount of time a temporary session created by a signed message is valid."
+default = "600 sec"
+required = false
+
+[ticrypt.auth.sessions.subsession-max-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "The maximum TTL for a sub-session"
+default = "1800 sec"
+required = false
+
+[ticrypt.auth.sessions.banned-permissions]
+type = "[]string"
+description = "Permissions that will be stripped from all sessions, useful for blanket disabling functionality. Supports the same syntax as users.default-permissions."
+default = ["@mailbox"]
+required = false
+
+[ticrypt.auth.mfa.token-salt]
+type = "string[8:1024]"
+description = "Used in generation of authentication tokens to introduce variance between installations. This should be set to a string of random characters to properly salt the hash."
+default = "some random string"
+required = true
+
+[ticrypt.auth.mfa.num-factors-required]
+type = "int"
+description = "Number of additional authentication factors required for successful login. 0 means MFA is disabled."
+default = 0
+required = true
+
+[ticrypt.auth.mfa.enalbed-factors]
+type = "[]string"
+description = "Which of the factors configured in the 'factors' configuration below are enabled"
+default = []
+required = true 
+
+[ticrypt.auth.mfa.default-token-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "Default lifetime of an authentication token if not overriden in the provider configuration"
+default = "2 days"
+required = false
+
+[ticrypt.auth.mfa.default-cert-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "Default lifetime of a provider-generated certificate if not overridden in the configuration."
+default = "30 minutes"
+required = false
+
+[ticrypt.auth.mfa.factors.example-factor.public-key]
+type = "file"
+description = "Path to the public key, in PEM or DER format"
+default = "/path/to/public/key.pem"
+required = false
+
+[ticrypt.auth.mfa.factors.example-factor.url]
+type = "uri<https>"
+description = "URL that the front-end will use to redirect the user to authenticate"
+default = "https://my.domain.com/auth"
+required = false
+
+[ticrypt.auth.mfa.factors.example-factor.token-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "How long a token from this provider is valid. If not specified, the value from default-token-ttl will be used."
+default = "1 day"
+required = false
+
+[ticrypt.auth.mfa.factors.example-factor.cert-ttl]
+type = "duration[100 sec: 3 hr]"
+description = "How long a certificate issued by this provider is valid. The timestamp in the certificate may be at most this old in order for a token to be created."
+default = "5 minutes"
+required = false
+
+[ticrypt.auth.services.check-ping-frequency]
+type = "duration[1 sec: 10 min]"
+description = "How often the services manager should check for check for services that have not responsed within the timeout"
+default = "2 seconds"
+required = false
+
+[ticrypt.auth.services.timeout]
+type = "duration[1 sec: 1 hr]"
+description = "How long a service must go without responding to heartbeat messages before being considered offline."
+default = "20s"
+required = false
+
+[ticrypt.auth.key-escrow.enabled]
+type = "boolean"
+description = "Whether or not the key escrow subsystem is enabled"
+default = false
+required = true
+
+[ticrypt.auth.key-escrow.min-keys]
+type = "int"
+description = "The minimum number of recovery keys that must be generated and combined into the master key for the escrow request to be considered valid. This effectively means that there must be AT LEAST this many escrow groups configured for key escrow to be successful."
+default = 3
+required = false
+
+[ticrypt.auth.key-escrow.site-key-path]
+type = "file"
+description = "Location of the signed site key. This is REQUIRED for the escrow subsystem to function. There is no default value for this setting, it MUST be set separately for each installation."
+default = "/etc/pki/ticrypt/site_key.json"
+required = false
+
+[ticrypt.auth.security.xss.kill-session]
+type = "boolean"
+description = "If enabled, if a suspected XSS attack is detected by the REST server, the session used in the request will be invalidated."
+default = true
+required = false
+
+[ticrypt.auth.security.xss.lock-user]
+type = "boolean"
+description = "If enabled, if a suspected XSS attack is detected by the REST server, the account of the user performing the request will be locked."
+default = false
+required = false
+
+[ticrypt.auth.security.xss.lock-user-reason]
+type = "string"
+description = "If an account is locked due to a suspected XSS attack, the following message will be set as the reason for the account being inactive."
+default = "Account locked due to suspected malicious activity"
+required = false
+
+[ticrypt.auth.mailboxes]
+type = "boolean"
+description = "Whether or not the mailbox subsystem is enabled"
+default = false
+required = false
+
+[ticrypt.auth.server-assisted-auth.enabled]
+type = "boolean"
+description = "Determines whether server-assisted authentication is available. If enabled, the IV and salts used to decrypt the user's private key can be stored on the server, and are only given to the user if they can provide valid MFA credentials.  MFA must be enabled and configured with at least one extra factor for SAA to be enabled. If MFA is not properly configured, SAA will be disabled regardless of this setting."
+default = false
+required = false
+
+[ticrypt.auth.server-assisted-auth.required]
+type = "boolean"
+description = "Determines whether server-assisted authentication is required for new accounts. Only takes effect if SAA is enabled."
+default = true
+required = false
+
+[ticrypt.auth.akka.remote.artery.canonical.hostname]
+type = "hostname"
+description = "Determines whether server-assisted authentication is required for new accounts. Only takes effect if SAA is enabled."
+default = "127.0.0.1"
+required = false
+
+[ticrypt.auth.akka.remote.artery.canonical.port]
+type = "port"
+description = "Sets the port used for remote connections to other services."
+default = 2552
+required = false

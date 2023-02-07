@@ -3,187 +3,100 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/mitchellh/mapstructure"
-	configuration "github.com/tera-insights/go-akka-configuration"
-	"github.com/tera-insights/go-akka-configuration/hocon"
-	// 	"github.com/en-vee/aconf"
-	// 	validator "gopkg.in/go-playground/validator.v9"
+	"github.com/tera-insights/go-akka-configuration"
 )
 
-type node struct {
-	NodeName    string
-	Default     interface{}
-	Description string
-	Required    bool
-	Type        string
-	Position    *Position
-	Error       []string
-	Warning     []string
-	Verbose     []string
+type TreeNode struct {
+	Key   string
+	Value interface{}
+	Nodes []TreeNode
 }
 
-type nodes struct {
-	Node []node
+func parseHoconString(hoconStr string) (*TreeNode, error) {
+	// Parse the HOCON string into a Config object
+	config := configuration.ParseString(hoconStr)
+
+	// Create a tree structure of only the values
+	root := &TreeNode{Key: "root"}
+	buildTree(config, root)
+
+	return root, nil
 }
 
-type Position struct {
-	Line int
-	Col  int
-	Len  int
-}
+func buildTree(config *configuration.Config, parent *TreeNode) {
+	for _, key := range config.Keys() {
+		node := &TreeNode{Key: key}
+		parent.Nodes = append(parent.Nodes, *node)
 
-type tree map[string]interface{}
-
-func NewPosition(pos interface{}) *Position {
-	res := Position{}
-	switch t := pos.(type) {
-	case hocon.Position:
-		x := pos.(hocon.Position)
-		res.Line = x.Line
-		res.Col = x.Col
-		res.Len = x.Len
-	default:
-		fmt.Printf("type %v is not supported \n", t)
-	}
-	return &res
-}
-
-func main() {
-	// 	var parser ConfigParser
-	// 	var filepath string
-	// 	var extension string
-
-	// 	fmt.Println("Enter toml file path:")
-	// 	fmt.Scan(&specFilePath)
-	// 	fmt.Println("Enter hocon file path:")
-	// 	fmt.Scan(&hoconfile)
-
-	// specFilePath := "../tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	// if _, err := os.Stat(specFilePath); err != nil {
-	// 	specFilePath = "../tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	// }
-	// buff, err := os.Readlink("../tiCrypt-backend/tiDemo/ticrypt-auth.conf")
-	// if err != nil {
-	// 	fmt.Print(err)
-	// }
-
-	specFilePath := "/workspaces/confcheck/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	_, err := os.Stat(specFilePath)
-	if os.IsNotExist(err) {
-		specFilePath = "/workspaces/confcheck/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	}
-
-	hoconfile := "/workspaces/confcheck/tiCrypt-backend/default-config/ticrypt-auth.conf"
-	buff, err := os.ReadFile(hoconfile)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	//for hocon file
-	conf := configuration.ParseString(string(buff))
-
-	//for the toml
-	var tree tree
-	meta, err := toml.DecodeFile(specFilePath, &tree)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-
-	Nodes := map[string]node{}
-	dfs(tree, conf, "", nil, Nodes, meta)
-	fmt.Printf("Nodes count: %v\n", len(Nodes))
-	//printLog(Nodes)
-	//printJsonLog(Nodes)
-	//exportToJson(Nodes)
-
-	// 	switch extension {
-	// 	case "hocon":
-	// 		parser = HoconParser{}
-	// 	case "toml":
-	// 		parser = TomlParser{}
-	// 	default:
-	// 		fmt.Println("Invalid config file extension.")
-	// 		return
-	//	}
-
-	// 	cfg, err := parser.Parse(filepath)
-	// 	if err != nil {
-	// 		log.Fatalf("Failed to parse config file: %s", err)
-	// 	}
-	// 	fmt.Println("Config:", cfg)
-
-}
-
-func dfs(tree tree, config *configuration.Config, nodeName string, parentNode tree, visited map[string]node, meta toml.MetaData) {
-	for i, j := range tree {
-		_ = j
-		nestedtree, ok := tree[i].(map[string]interface{})
-		if ok {
-			c := nodeName
-			if len(nodeName) > 0 {
-				c = nodeName + "."
-			}
-			dfs(nestedtree, config, c+i, tree, visited, meta)
+		if config.IsConfig(key) {
+			buildTree(config.GetConfig(key), node)
 		} else {
-			currNode, ok := visited[nodeName]
-			if !ok {
-				currNode = node{}
-				currMap := parentNode[nodeName[1+strings.LastIndex(nodeName, "."):]]
-				mapstructure.Decode(currMap, &currNode)
-				currNode.NodeName = nodeName
-				currNode.Position = NewPosition(config.GetPosition(nodeName))
-				fmt.Print(config.GetPosition(nodeName))
-				fmt.Printf("ping")
-				//validate(config, &currNode)
-
-				visited[nodeName] = currNode
-				fmt.Printf("%v %v \n", config.GetPosition(nodeName), nodeName)
-			}
+			node.Value = config.GetAny(key)
 		}
 	}
 }
 
-// // Temp struct - change later
-// type Config struct {
-// 	Username string `config:"username" validate:"required"`
-// 	Password string `config:"password" validate:"required"`
-// }
+func main() {
+	// Read and Parse TOML File
+	// tomlParsing()
 
-// type ConfigParser interface {
-// 	Parse(filepath string) (*Config, error)
-// }
+	// Read the HOCON config file into a string
+	hoconString, err := os.ReadFile("config.conf")
+	if err != nil {
+		fmt.Println("Error while reading config file:", err)
+		return
+	}
 
-// type HoconParser struct{}
+	// Parse the HOCON string into a TreeNode object
+	root, err := parseHoconString(string(hoconString))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-// func (p HoconParser) Parse(filepath string) (*Config, error) {
-// 	// var appConfig = &ConfigFile{}
-// 	// if err := parser.Parse(reader, appConfig); err != nil {
-// 	// 			fmt.Printf("Error %v", err)
-// 	// }
-// 	var cfg Config
-// 	err := aconf.Load(&cfg, "/home/siddhant/workspace/test/hoconfiles/test.conf")
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	validate := validator.New()
-// 	err = validate.Struct(cfg)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &cfg, nil
-// }
+	// Print the tree structure
+	fmt.Println("Tree structure:")
+	printTree(root, 0)
+}
 
-// type TomlParser struct{}
+func printTree(node *TreeNode, depth int) {
+	for i := 0; i < depth; i++ {
+		fmt.Print("  ")
+	}
+	fmt.Println(node.Key, ":", node.Value)
+	for _, child := range node.Nodes {
+		printTree(&child, depth+1)
+	}
+}
 
-// func (p TomlParser) Parse(filepath string) (*Config, error) {
-// 	var cfg Config
-// 	_, err := toml.DecodeFile(filepath, &cfg)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &cfg, nil
-// }
+type ConfigTree map[string]interface{}
+
+func tomlParsing() {
+
+	var config ConfigTree
+
+	// Decode the toml configuration file into a ConfigTree.
+	specFile := "/workspaces/confcheck/files/spec.toml"
+	_, err := toml.DecodeFile(specFile, &config)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error decoding toml file:", err)
+		os.Exit(1)
+	}
+
+	// Printing TOML ConfigTree.
+	printConfigTree(config, "")
+}
+
+func printConfigTree(tree ConfigTree, indent string) {
+	for key, value := range tree {
+		switch v := value.(type) {
+		case map[string]interface{}:
+			fmt.Printf("%s%s:\n", indent, key)
+			printConfigTree(v, indent+"  ")
+		default:
+			fmt.Printf("%s%s = %v\n", indent, key, v)
+		}
+	}
+}
