@@ -1,11 +1,5 @@
 package main
 
-import (
-	"fmt"
-
-	configuration "github.com/tera-insights/go-akka-configuration"
-)
-
 type Node struct {
 	Key    string
 	Value  interface{}
@@ -30,13 +24,4 @@ func buildConfTree(key string, value interface{}, parent *Node) *Node {
 		}
 	}
 	return node
-}
-
-func main2() {
-	hoconFile := "/workspaces/confcheck/files/config.conf"
-
-	config := configuration.LoadConfig(hoconFile)
-
-	root := buildConfTree("root", config, nil)
-	fmt.Println(root)
 }
