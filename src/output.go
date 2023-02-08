@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"github.com/TylerBrock/colorjson"
 )
@@ -47,7 +47,7 @@ func exportToJson(nodes map[string]node) {
 		return
 	}
 
-	ioutil.WriteFile("output.json", b, 0644)
+	os.WriteFile("output.json", b, 0644)
 	//fmt.Println(string(b))
 
 }

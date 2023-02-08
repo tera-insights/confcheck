@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"io/ioutil"
 	"os"
 	"regexp"
 
@@ -22,7 +21,7 @@ type Config struct {
 
 func (c *Config) ParseFile(path string) error {
 	os.Stdout.WriteString("Parsing config file\n")
-	bytes, err := ioutil.ReadFile(path)
+	bytes, err := os.ReadFile(path)
 	if err != nil {
 		return errors.New("failed to read config file")
 	}

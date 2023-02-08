@@ -1,58 +1,58 @@
 package main
 
-import (
-	"fmt"
-	"os"
+// import (
+// 	"fmt"
+// 	"os"
 
-	"github.com/BurntSushi/toml"
-)
+// 	"github.com/BurntSushi/toml"
+// )
 
-type treeStruct struct {
-	treeMap interface{}
-}
+// type treeStruct struct {
+// 	treeMap interface{}
+// }
 
-func (treeStruct *treeStruct) UnmarshalTOML(data interface{}) error {
-	d, _ := data.(map[string]interface{})
-	
-	//d has all the data as nested maps
-	keys := make([]interface{}, len(d))
-	i := 0
-	for k := range d {
-		keys[i] = k
-		fmt.Printf("%s\n %s", keys[i], d["type"])
-		i++
-	}
+// func (treeStruct *treeStruct) UnmarshalTOML(data interface{}) error {
+// 	d, _ := data.(map[string]interface{})
 
-	return nil
-}
+// 	//d has all the data as nested maps
+// 	keys := make([]interface{}, len(d))
+// 	i := 0
+// 	for k := range d {
+// 		keys[i] = k
+// 		fmt.Printf("%s\n %s", keys[i], d["type"])
+// 		i++
+// 	}
 
-func main() {
-	f := "../examples/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	if _, err := os.Stat(f); err != nil {
-		f = "../examples/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
-	}
+// 	return nil
+// }
 
-	os.Stdout.WriteString("Starting Decoding config file\n")
-	var config treeStruct
+// func main() {
+// 	f := "../examples/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
+// 	if _, err := os.Stat(f); err != nil {
+// 		f = "../examples/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
+// 	}
 
-	meta, err := toml.DecodeFile(f, &config.treeMap)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
+// 	os.Stdout.WriteString("Starting Decoding config file\n")
+// 	var config treeStruct
 
-	os.Stdout.WriteString("Decoding config file completed\n")
+// 	meta, err := toml.DecodeFile(f, &config.treeMap)
+// 	if err != nil {
+// 		fmt.Fprintln(os.Stderr, err)
+// 		os.Exit(1)
+// 	}
 
-	keys := meta.Keys()
-	mapping := meta.Undecoded()
-	for i, k := range keys {
-		fmt.Printf("%d %-10s %s\n", i, meta.Type(k...), k)
-	}
+// 	os.Stdout.WriteString("Decoding config file completed\n")
 
-	fmt.Println(mapping[10])
+// 	keys := meta.Keys()
+// 	mapping := meta.Undecoded()
+// 	for i, k := range keys {
+// 		fmt.Printf("%d %-10s %s\n", i, meta.Type(k...), k)
+// 	}
 
-	//Gets the primary key- ticrypt
-	/*ts := &treeStruct{}
-	toml.DecodeFile(f, ts)
-	ts.UnmarshalTOML(ts)*/
-}
+// 	fmt.Println(mapping[10])
+
+// 	//Gets the primary key- ticrypt
+// 	/*ts := &treeStruct{}
+// 	toml.DecodeFile(f, ts)
+// 	ts.UnmarshalTOML(ts)*/
+// }

@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/go-akka/configuration"
-	"github.com/go-akka/configuration/hocon"
+	"github.com/tera-insights/go-akka-configuration/hocon"
+	"github.com/tera-insights/go-akka-configuration"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -21,10 +21,6 @@ type node struct {
 	Error       []string
 	Warning     []string
 	Verbose     []string
-}
-
-type nodes struct {
-	Node []node
 }
 
 type Position struct {
@@ -54,6 +50,7 @@ func main() {
 	if _, err := os.Stat(specFilePath); err != nil {
 		specFilePath = "../examples/tiCrypt-backend/spec/ticrypt-auth.spec.toml"
 	}
+
 	buff, err := os.ReadFile("../examples/tiCrypt-backend/default-config/ticrypt-auth.conf") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
@@ -95,9 +92,8 @@ func dfs(tree tree, config *configuration.Config, nodeName string, parentNode tr
 				currNode.NodeName = nodeName
 				currNode.Position = NewPosition(config.GetPosition(nodeName))
 				validate(config, &currNode) //validation check
-
 				visited[nodeName] = currNode
-				// fmt.Printf("%v %v \n", config.GetPosition(nodeName), nodeName)
+				fmt.Printf("%v %v \n", config.GetPosition(nodeName), nodeName)
 			}
 		}
 	}

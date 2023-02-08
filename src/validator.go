@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/go-akka/configuration"
-	"github.com/go-akka/configuration/hocon"
+	"github.com/tera-insights/go-akka-configuration/hocon"
+	"github.com/tera-insights/go-akka-configuration"
 )
 
 func validate(config *configuration.Config, node *node) {
@@ -237,10 +237,7 @@ func isSwitch(val string) bool {
 
 func isInt(value string) bool {
 	_, err := strconv.ParseInt(value, 10, 32)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func isPort(value string) bool {
@@ -251,11 +248,11 @@ func isPort(value string) bool {
 	return true
 }
 
-func isIP(value string) bool {
-	ValidIpAddressRegex := "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$"
-	match, _ := regexp.MatchString(ValidIpAddressRegex, value)
-	return match
-}
+// func isIP(value string) bool {
+// 	ValidIpAddressRegex := "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$"
+// 	match, _ := regexp.MatchString(ValidIpAddressRegex, value)
+// 	return match
+// }
 
 func isHostname(value string) bool {
 	ValidHostnameRegex := "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
