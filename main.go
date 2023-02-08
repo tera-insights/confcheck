@@ -23,7 +23,7 @@ func main() {
 
 	// Parsing TOML Config File into a Tree DS
 	var config ConfigTree
-	specFile := "/workspaces/confcheck/files/spec.toml"
+	specFile := "/Users/Siddhant/tera/alt/confcheck/files/spec.toml"
 	_, err := toml.DecodeFile(specFile, &config)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Error decoding toml file:", err)
@@ -32,7 +32,7 @@ func main() {
 	printConfigTree(config, "")
 
 	// Parsing HOCON Config File into a Tree DS
-	hoconFile := "/workspaces/confcheck/files/config.conf"
+	hoconFile := "/Users/Siddhant/tera/alt/confcheck/files/config.conf"
 	hoconConf := configuration.LoadConfig(hoconFile)
 	root := buildConfTree("root", hoconConf, nil)
 	fmt.Println(root)
