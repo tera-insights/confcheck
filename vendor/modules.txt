@@ -2,7 +2,7 @@
 ## explicit
 github.com/BurntSushi/toml
 github.com/BurntSushi/toml/internal
-# github.com/tera-insights/go-akka-configuration v1.0.0
+# github.com/tera-insights/go-akka-configuration v2.0.0
 ## explicit
 github.com/tera-insights/go-akka-configuration
 github.com/tera-insights/go-akka-configuration/hocon
