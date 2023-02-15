@@ -1,6 +1,4 @@
-github.com/BurntSushi/toml v1.2.1 h1:9F2/+DoOYIOksmaJFPw1tGFy1eDnIJXg+UHjuD8lTak=
-github.com/BurntSushi/toml v1.2.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
-github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyuac5Z2hdY=
-github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
+github.com/gurkankaymak/hocon v1.2.15 h1:S6xOWkafQj97MUuRr1PdhiGzMucEDvHuEa1SjtcHM+0=
+github.com/gurkankaymak/hocon v1.2.15/go.mod h1:dQCfhnuDKlLqAZRGhFTd81HkAfMx7STHv0w2JkJ6iq4=
 github.com/tera-insights/go-akka-configuration v1.1.0 h1:m3jJiVXWFmz34O/OHmYr5PulBBEBN4da05rUvguFLdQ=
 github.com/tera-insights/go-akka-configuration v1.1.0/go.mod h1:M8pPTZLlrPdZKpFMjRgbfPmpAf6RWaSoVFwQNlX3vC8=
