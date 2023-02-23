@@ -1,4 +1,2 @@
-github.com/gurkankaymak/hocon v1.2.15 h1:S6xOWkafQj97MUuRr1PdhiGzMucEDvHuEa1SjtcHM+0=
-github.com/gurkankaymak/hocon v1.2.15/go.mod h1:dQCfhnuDKlLqAZRGhFTd81HkAfMx7STHv0w2JkJ6iq4=
 github.com/tera-insights/go-akka-configuration v1.1.0 h1:m3jJiVXWFmz34O/OHmYr5PulBBEBN4da05rUvguFLdQ=
 github.com/tera-insights/go-akka-configuration v1.1.0/go.mod h1:M8pPTZLlrPdZKpFMjRgbfPmpAf6RWaSoVFwQNlX3vC8=
