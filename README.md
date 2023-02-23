@@ -1,7 +1,7 @@
 # confcheck
 Configuration file checker
 
-Testing an alternate method to read, parse and validate config files
+Compiled and Tested code from the <Test> Branch
 
 //TOML Parsing
 https://github.com/tera-insights/go-toml
